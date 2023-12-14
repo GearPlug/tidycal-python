@@ -25,6 +25,12 @@ token = client.get_access_token(code)
 # "code" is the same response code after login with oauth with the above url.
 ```
 
+2. **Refresh access token using refresh_token**
+```python
+token = client.refresh_access_token(refresh_token)
+# "refresh_token" is the token refresh in response after login with oauth with the above url.
+```
+
 #### - Get current user
 ```python
 client.get_current_user()
