@@ -18,11 +18,12 @@ class Client(object):
         self.REDIRECT_URI = redirect_uri
         self.TOKEN = None
 
-    def authorization_url(self):
+    def authorization_url(self, state):
         params = {
             "client_id": self.CLIENT_ID,
             "redirect_uri": self.REDIRECT_URI,
             "response_type": "code",
+            "state": state,
         }
 
         return self.AUTH_URL + "?" + urlencode(params)
