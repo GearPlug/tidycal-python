@@ -18,7 +18,7 @@ class Client(object):
         self.REDIRECT_URI = redirect_uri
         self.TOKEN = None
 
-    def authorization_url(self, state):
+    def authorization_url(self, state=None):
         params = {
             "client_id": self.CLIENT_ID,
             "redirect_uri": self.REDIRECT_URI,
@@ -47,16 +47,29 @@ class Client(object):
         response = requests.get(self.URL + 'api/me', headers=self.headers)
         return self.parse(response)
 
-    def list_bookings(self):
-        response = requests.get(self.URL + 'api/bookings', headers=self.headers)
+    def list_bookings(self, starts_at=None, ends_at=None, cancelled=None, page=None):
+        url_text = 'api/bookings'
+        if starts_at:
+            url_text += f'?starts_at={starts_at}'
+        elif ends_at:
+            url_text += f'?ends_at={ends_at}'
+        elif cancelled:
+            url_text += f'?cancelled={cancelled}'
+        elif page:
+            url_text += f'?page={page}'
+
+        response = requests.get(self.URL + url_text, headers=self.headers)
         return self.parse(response)
 
     def list_booking_types(self):
         response = requests.get(self.URL + 'api/booking-types', headers=self.headers)
         return self.parse(response)
 
-    def list_contacts(self):
-        response = requests.get(self.URL + 'api/contacts', headers=self.headers)
+    def list_contacts(self, page=None):
+        url_text = 'api/contacts'
+        if page:
+            url_text += f'?page={page}'
+        response = requests.get(self.URL + url_text, headers=self.headers)
         return self.parse(response)
 
     def parse(self, response):
