@@ -36,9 +36,9 @@ class Client(object):
 
     def refresh_access_token(self, refresh_token):
         tidycal = OAuth2Session(self.CLIENT_ID, redirect_uri=self.REDIRECT_URI, token={'refresh_token': refresh_token})
-        token = tidycal.refresh_token(self.TOKEN_URL, client_id=self.CLIENT_ID, client_secret=self.CLIENT_SECRET)
-        self.set_token(token)
-        return token
+        self.TOKEN = tidycal.refresh_token(self.TOKEN_URL, client_id=self.CLIENT_ID, client_secret=self.CLIENT_SECRET)
+        self.set_token(self.TOKEN)
+        return self.TOKEN
 
     def set_token(self, access_token):
         self.headers.update(Authorization=f"Bearer {access_token['access_token']}")
